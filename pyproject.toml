@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "skypro-shop"
+version = "0.1.0"
+description = ""
+authors = ["Chernokozov Yuriy <Chernokozovyu@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^6.0"
+
+
+[tool.poetry.group.lint.dependencies]
+black = "^25.11.0"
+flake8 = "^7.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
