@@ -1,0 +1,42 @@
+[
+{
+  "model": "catalog.category",
+  "pk": 1,
+  "fields": {
+    "name": "эдакое диво дивное",
+    "description": "всё что уму не постижимо"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Электроника",
+    "description": "Техника и гаджеты"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 3,
+  "fields": {
+    "name": "Книги",
+    "description": "Литература"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 4,
+  "fields": {
+    "name": "Электроника",
+    "description": "Техника и гаджеты"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 5,
+  "fields": {
+    "name": "Книги",
+    "description": "Литература"
+  }
+}
+]
