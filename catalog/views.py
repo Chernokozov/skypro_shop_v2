@@ -1,8 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from .models import Product
+
 
 # Create your views here.
 def home(request):
-    return render(request, 'catalog/home.html')
+    """Главная страница с товарами"""
+    products = Product.objects.all()
+    context = {
+        'products': products,
+        'title': 'Главная страница'
+    }
+
+    return render(request, 'catalog/home.html', context)
+
 
 def contacts(request):
     if request.method == 'POST':
@@ -13,6 +24,18 @@ def contacts(request):
         context = {
             'message_sent': True,
             'name': name,
+            'email': email,
+            'message': message
         }
         return render(request, 'catalog/contacts.html', context)
     return render(request, 'catalog/contacts.html')
+
+def product_detail(request, pk):
+    """Контроллер для отображения детальной информации о товаре"""
+    product = get_object_or_404(Product, pk=pk)
+    context = {
+        'product': product,
+        'title': product.name
+    }
+
+    return render(request, 'catalog/product_detail.html', context)
