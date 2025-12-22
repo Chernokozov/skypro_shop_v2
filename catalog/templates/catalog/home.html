@@ -8,6 +8,20 @@
     {% for product in products %}
     <div class="col-md-4 mb-3">
         <div class="card">
+            <div class="card-img-top-container" style="height: 200px; overflow: hidden;">
+                {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="card-img-top h-100 w-100"
+                     alt="{{ product.name }}"
+                     style="object-fit: cover;">
+                {% else %}
+                <div class="h-100 w-100 d-flex align-items-center justify-content-center bg-light">
+                    <span class="text-muted">Товар на фотосессии</span>
+                </div>
+                {% endif %}
+            </div>
+            
+
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">
