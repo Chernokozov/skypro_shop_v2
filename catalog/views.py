@@ -1,36 +1,64 @@
-from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView, TemplateView
 
 from .models import Product
 
 
-def home(request):
-    """Контроллер главной страницы с товарами"""
-    products = Product.objects.all()
-    context = {"products": products, "title": "Главная страница"}
+class ProductListView(ListView):
+    """
+    Класс для отображения списка товаров на главной странице.
+    Наследуется от ListView - стандартного класса для списков
+    """
 
-    return render(request, "catalog/home.html", context)
+    model = Product
+    template_name = "catalog/home.html"
+    context_object_name = "products"
 
-def contacts(request):
-    """Контроллер страницы с контактами"""
-
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        message = request.POST.get("message")
-
-        context = {
-            "message_sent": True,
-            "name": name,
-            "email": email,
-            "message": message,
-        }
-        return render(request, "catalog/contacts.html", context)
-    return render(request, "catalog/contacts.html")
+    def get_context_data(self, **kwargs):
+        """
+        Добавляем дополнительные данные в контекст.
+        Returns:
+            dict: Контекст с заголовком страницы.
+        """
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Каталог товаров"
+        return context
 
 
-def product_detail(request, pk):
-    """Контроллер для отображения детальной информации о товаре"""
-    product = get_object_or_404(Product, pk=pk)
-    context = {"product": product, "title": product.name}
+class ProductDetailView(DetailView):
+    """
+    Класс для отображения детальной страницы товара.
+    Наследуется от DetailView - для отображения одного объекта.
+    """
 
-    return render(request, "catalog/product_detail.html", context)
+    model = Product
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product"
+
+    def get_context_data(self, **kwargs):
+        """
+        Добавляем заголовок в контекст.
+        Returns:
+            dict: Контекст с заголовком страницы
+        """
+        context = super().get_context_data(**kwargs)
+        context["title"] = self.object.name
+        return context
+
+
+class ContactsView(TemplateView):
+    """
+    Класс для отображения страницы контактов.
+    Наследуется от TemplateView - для статических страниц.
+    """
+
+    template_name = "catalog/contacts.html"
+
+    def get_context_data(self, **kwargs):
+        """
+        Добавляем заголовок в контекст
+        Returns:
+            dict: Контекст с заголовком страницы.
+        """
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Контакты"
+        return context

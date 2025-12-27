@@ -1,0 +1,71 @@
+{% extends 'blog/base.html' %}
+
+{% block blog_content %}
+<h1 class="mb-4">{{ title }}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Заголовок</label>
+        {{ form.title }}
+        {% if form.title.errors %}
+        <div class="text-danger">{{ form.title.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">URL (слаг)</label>
+        {{ form.slug }}
+        {% if form.slug.errors %}
+        <div class="text-danger">{{ form.slug.errors }}</div>
+        {% endif %}
+        <small class="form-text text-muted">
+            Например: "moja-pervaya-zapis"
+        </small>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Содержимое</label>
+        {{ form.content }}
+        {% if form.content.errors %}
+        <div class="text-danger">{{ form.content.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Превью</label>
+        {{ form.preview }}
+        {% if form.preview.errors %}
+        <div class="text-danger">{{ form.preview.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3 form-check">
+        {{ form.is_published }}
+        <label class="form-check-label">Опубликовать</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        {% if object %}Сохранить{% else %}Создать{% endif %}
+    </button>
+    <a href="{% if object %}{{ object.get_absolute_url }}{% else %}{% url 'blog:post_list' %}{% endif %}"
+       class="btn btn-secondary">
+        Отмена
+    </a>
+</form>
+
+<style>
+    /* Простые стили для формы */
+    textarea {
+        min-height: 150px;
+    }
+    input, textarea, select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}

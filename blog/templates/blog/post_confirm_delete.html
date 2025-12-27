@@ -1,0 +1,18 @@
+{% extends 'blog/base.html' %}
+
+{% block blog_content %}
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">Подтверждение удаления</h4>
+    </div>
+    <div class="card-body">
+        <p>Вы уверены, что хотите удалить запись <strong>"{{ object.title }}"</strong>?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Да, удалить</button>
+            <a href="{{ object.get_absolute_url }}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
