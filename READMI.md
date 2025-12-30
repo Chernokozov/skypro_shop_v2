@@ -230,6 +230,17 @@ skypro_shop/
 │   ├── settings.py        # Основные настройки
 │   ├── urls.py           # Корневые URL-паттерны
 │   └── wsgi.py           # WSGI конфигурация
+├── blog/                    # Приложение блога
+│   ├── models.py           # Модель BlogPost
+│   ├── views.py            # CBV для блога
+│   ├── urls.py             # URL блога с пространством имен
+│   ├── admin.py            # Админка для блога
+│   └── templates/blog/     # Шаблоны блога
+│       ├── base.html
+│       ├── post_list.html
+│       ├── post_detail.html
+│       ├── post_form.html
+│       └── post_confirm_delete.html
 ├── catalog/               # Основное приложение
 │   ├── models.py         # Модели данных
 │   ├── views.py          # Контроллеры
@@ -420,6 +431,82 @@ curl -X GET http://localhost:8000/api/products/
 - Убедитесь, что тесты проходят
 - Следуйте стилю кода проекта
 - Обновляйте документацию при необходимости
+
+## 📝 Блог
+
+### Возможности блога
+- Просмотр списка статей с пагинацией
+- Детальное отображение статьи с увеличением счетчика просмотров
+- Создание, редактирование и удаление статей (для авторизованных пользователей)
+- Загрузка изображений для статей
+- Фильтрация только опубликованных статей
+
+### Модель BlogPost
+```python
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Заголовок')
+    content = models.TextField(verbose_name='Содержимое')
+    preview = models.ImageField(upload_to='blog/previews/', verbose_name='Превью')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
+    views_count = models.PositiveIntegerField(default=0, verbose_name='Количество просмотров')
+    slug = models.SlugField(max_length=200, unique=True, verbose_name='URL')
+```
+## URL блога
+URL	Назначение	Имя маршрута
+/blog/	Список статей	blog:post_list
+/blog/create/	Создание статьи	blog:post_create
+/blog/<slug>/	Детальная страница статьи	blog:post_detail
+/blog/<slug>/update/	Редактирование статьи	blog:post_update
+/blog/<slug>/delete/	Удаление статьи	blog:post_delete
+
+## Особенности реализации
+CBV (Class-Based Views): Все контроллеры реализованы на классах
+
+Увеличение счетчика просмотров: При каждом открытии статьи счетчик увеличивается
+
+Фильтрация: В списке отображаются только опубликованные статьи (is_published=True)
+
+Перенаправление: После редактирования пользователь перенаправляется на страницу статьи
+
+Аутентификация: Создание, редактирование и удаление доступны только авторизованным пользователям
+
+## Примеры использования
+# Создание тестовой статьи через shell
+```bash
+# Создание тестовой статьи через shell
+python manage.py shell
+>>> from blog.models import BlogPost
+>>> post = BlogPost.objects.create(
+...     title='Тестовая статья',
+...     content='Содержимое статьи',
+...     slug='testovaya-statya',
+...     is_published=True
+... )
+```
+Тестирование блога
+Перейдите на http://localhost:8000/blog/
+
+Создайте статью через админку или форму создания
+
+Проверьте увеличение счетчика просмотров
+
+Протестируйте редактирование и удаление
+
+
+```markdown
+## ✨ Функциональность
+
+### ✅ Реализовано
+- **Каталог товаров** с категориями и изображениями
+- **Детальная страница товара** с полной информацией
+- **Блог статей** с полным CRUD (создание, чтение, обновление, удаление)
+- **Административная панель** для управления контентом
+- **Адаптивный дизайн** на Bootstrap 5
+- **Загрузка изображений** для товаров и статей
+- **Счетчик просмотров** для статей блога
+- **Фильтрация** по статусу публикации
+```
 
 ## 📄 Лицензия
 
