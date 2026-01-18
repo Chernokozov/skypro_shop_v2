@@ -3,6 +3,14 @@
 {% block content %}
 <h1>Товары</h1>
 
+{% if user.is_authenticated %}
+<div class="mb-3">
+    <a href="{% url 'product_create' %}" class="btn btn-success">
+        + Добавить новый продукт
+    </a>
+</div>
+{% endif %}
+
 {% if products %}
 <div class="row">
     {% for product in products %}
@@ -20,7 +28,7 @@
                 </div>
                 {% endif %}
             </div>
-            
+
 
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
@@ -31,6 +39,8 @@
                 <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary btn-sm">
                     Подробнее
                 </a>
+
+
             </div>
         </div>
     </div>
