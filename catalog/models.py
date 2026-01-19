@@ -31,7 +31,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True, verbose_name="Дата последнего обновления"
     )
-    is_published = models.BooleanField(default=True, verbose_name="Опубликовано")
+    is_published = models.BooleanField(default=False, verbose_name="Опубликовано")
 
     class Meta:
         verbose_name = "Продукт"
