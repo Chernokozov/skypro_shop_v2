@@ -1,5 +1,8 @@
-from django.views.generic import ListView, DetailView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
+from .forms import ProductForm
 from .models import Product
 
 
@@ -61,4 +64,45 @@ class ContactsView(TemplateView):
         """
         context = super().get_context_data(**kwargs)
         context["title"] = "Контакты"
+        return context
+
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    """Создание нового продукта"""
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание продукта'
+        return context
+
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    """Редактирование существующего продукта"""
+
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('product_detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Редактирование: {self.object.name}'
+        return context
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    """Удаление продукта"""
+    model = Product
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Удаление: {self.object.name}'
         return context

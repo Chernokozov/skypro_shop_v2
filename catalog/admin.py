@@ -13,4 +13,4 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "price", "category", "created_at")
     list_filter = ("category",)
     search_fields = ("name", "description")
-    fields = ("name", "description", "image", "category", "price")
+    fields = ("name", "description", "image", "category", "price", "is_published")
