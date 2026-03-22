@@ -5,12 +5,18 @@
             <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'home' %}">
                 Магазин
             </a>
-            <a class="btn btn-outline-secondary btn-sm me-2" href="{% url 'blog:post_list' %}">
-                Блог
+            {% if user.is_authenticated %}
+            <a class="btn btn-outline-secondary btn-sm me-2" href="{% url 'users:logout' %}">
+                Выход
             </a>
-            <a class="btn btn-outline-secondary btn-sm" href="{% url 'contacts' %}">
-                Контакты
+            {% else %}
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'users:login' %}">
+                Вход
             </a>
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'users:register' %}">
+                Регистрация
+            </a>
+            {% endif %}
         </div>
     </div>
 </nav>
