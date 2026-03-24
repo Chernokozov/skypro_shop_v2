@@ -86,3 +86,7 @@ class ProductForm(forms.ModelForm):
             raise ValidationError('Размер изображения не должен превышать 5 МБ')
 
         return image
+
+
+class StyleFormMixin:
+    pass

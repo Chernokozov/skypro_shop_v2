@@ -5,12 +5,21 @@
             <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'home' %}">
                 Магазин
             </a>
-            <a class="btn btn-outline-secondary btn-sm me-2" href="{% url 'blog:post_list' %}">
-                Блог
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'users:logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Выйти</button>
+
+            </form>
+
+            {% else %}
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'users:login' %}">
+                Вход
             </a>
-            <a class="btn btn-outline-secondary btn-sm" href="{% url 'contacts' %}">
-                Контакты
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'users:register' %}">
+                Регистрация
             </a>
+            {% endif %}
         </div>
     </div>
 </nav>
